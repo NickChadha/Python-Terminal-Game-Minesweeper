@@ -1,5 +1,5 @@
 from User import *
-from Board import *
+from GameBoard import *
 
 class Main:
     main_menu_options = [
@@ -57,7 +57,7 @@ class Main:
                 print('\nPlease enter a number to choose your difficulty:')
                 for option in Main.difficulty_menu_options:
                     print(option)
-                difficulty = input()
+                difficulty = input('Enter number choice: ').strip()
                 difficulty = Main.check_choice(difficulty, len(Main.difficulty_menu_options))
                 Main.play_new_game(difficulty)
             elif choice == 4: # Save and quit
@@ -76,6 +76,7 @@ class Main:
     
     def play_new_game(difficulty):
         game_board = Board(difficulty)
+        Board.show_board(game_board)
 
 # end of class Main
 
