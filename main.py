@@ -1,17 +1,24 @@
 from User import *
+from Board import *
 
 class Main:
     main_menu_options = [
         '1) Read the rules of the game',
         '2) Sign in',
         '3) Quit'
-                         ]
+    ]
     user_menu_options = [
         '1) Read the rules of the game',
         '2) View my stats',
         '3) Play a new game',
         '4) Save and quit'
-                            ]
+    ]
+    difficulty_menu_options = [
+        '1) Beginner',
+        '2) Intermediate',
+        '3) Expert'
+    ]
+
     def main_menu():
         choice = 0
         print('Minesweeper: Terminal Detonation by Nick Chadha')
@@ -47,14 +54,17 @@ class Main:
             elif choice == 2: # View my stats
                 User.view_stats(current_user)
             elif choice == 3: # Play a new game
-                pass
+                print('\nPlease enter a number to choose your difficulty:')
+                for option in Main.difficulty_menu_options:
+                    print(option)
+                difficulty = input()
+                difficulty = Main.check_choice(difficulty, len(Main.difficulty_menu_options))
+                Main.play_new_game(difficulty)
             elif choice == 4: # Save and quit
-                # TODO: save
+                User.write_stats()
                 print('\nThanks for playing!')
                 return
             
-
-
     def check_choice(choice, menu_length):
         choice = int(choice) # TODO: handle possible error
         if choice > 0 and choice <= menu_length:
@@ -63,6 +73,11 @@ class Main:
             choice = input('Invalid Input. Please enter a valid number: ').strip()
             choice = Main.check_choice(choice, menu_length)
         return choice
+    
+    def play_new_game(difficulty):
+        game_board = Board(difficulty)
+
+# end of class Main
 
 def main():
     User.load_stats()
