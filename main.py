@@ -59,7 +59,7 @@ class Main:
                     print(option)
                 difficulty = input('Enter number choice: ').strip()
                 difficulty = Main.check_choice(difficulty, len(Main.difficulty_menu_options))
-                Main.play_new_game(difficulty)
+                Main.play_new_game(difficulty, current_user)
             elif choice == 4: # Save and quit
                 User.write_stats()
                 print('\nThanks for playing!')
@@ -95,7 +95,7 @@ class Main:
         return [row, col, flag]
         
     
-    def play_new_game(difficulty):
+    def play_new_game(difficulty, current_user):
         game_board = Board(difficulty)
         Board.show_board(game_board)
         tile_info = input('\nPlease select a tile to uncover. Enter the row letter, then column number, and add an asterisk if you wish to flag the tile as a bomb: ')
@@ -104,9 +104,19 @@ class Main:
         while True:
             tile_info = input('\nPlease select a tile to uncover. Enter the row letter, then column number, and add an asterisk if you wish to flag the tile as a bomb: ')
             tile_info = Main.parse_game_input(tile_info, game_board)
-            Board.uncover_tile(game_board, tile_info)
-            # TODO: handle case where player loses --> exit while loop, adjust stats
-
+            if tile_info[2]:
+                Board.flag_tile(game_board, tile_info[0], tile_info[1])
+            else:
+                success = Board.uncover_tile(game_board, tile_info[0], tile_info[1])
+                Board.show_board(game_board)
+                if not success:
+                    print('\nGame over! You dug up a mine. Better luck next time!')
+                    current_user.losses += 1
+                    User.write_stats()
+                    return
+                elif game_board.check_win():
+                    print('\nCongrats, you didn\'t dig up a single mine! You won the game on {DIFFICULTY} difficulty!'.format(DIFFICULTY=difficulty))
+                    current_user.wins += 1
 # end of class Main
 
 def main():

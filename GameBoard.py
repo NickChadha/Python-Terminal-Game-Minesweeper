@@ -112,11 +112,53 @@ class Board:
                         for affected_col in affected_cols:
                             if not self.actual_board[affected_row][affected_col].value == 'X':
                                 self.actual_board[affected_row][affected_col].value += 1
-        self.uncover_tile(first_tile_info)
+        self.uncover_tile(first_tile_info[0], first_tile_info[1])
         self.show_board()
 
-    def uncover_tile(self, tile_info):
-        pass
+    def uncover_tile(self, row, col):
+        if self.actual_board[row][col].value == 'X':
+            return self.game_over()
+        elif self.actual_board[row][col].value == 0:
+            self.actual_board[row][col].visible = True
+            near_rows = [row - 1, row, row + 1]
+            near_cols = [col - 1, col, col + 1]
+            if row == 0:
+                near_rows = [row, row + 1]
+            elif row == self.num_rows - 1:
+                near_rows = [row - 1, row]
+            if col == 0:
+                near_cols = [col, col + 1]
+            elif col == self.num_cols - 1:
+                near_cols = [col - 1, col]
+            for near_row in near_rows:
+                for near_col in near_cols:
+                    if self.actual_board[near_row][near_col].visible == False:
+                        self.uncover_tile(near_row, near_col)
+        else:
+            self.actual_board[row][col].visible = True
+        return True
+
+    def flag_tile(self, row, col):
+        self.actual_board[row][col].flagged = True
+        self.show_board()
+
+    def check_win(self):
+        for row in range(len(self.actual_board)):
+            for col in range(len(self.actual_board[row])):
+                if not (self.actual_board[row][col].value == 'X' or self.actual_board[row][col].visible == True):
+                    return False
+        for row in range(len(self.actual_board)):
+            for col in range(len(self.actual_board[row])):
+                if self.actual_board[row][col].value == 'X' and self.actual_board[row][col].flagged == False:
+                    self.actual_board[row][col].visible = True
+        return True
+
+    def game_over(self):
+        for row in range(len(self.actual_board)):
+            for col in range(len(self.actual_board[row])):
+                if self.actual_board[row][col].value == 'X' and self.actual_board[row][col].flagged == False:
+                    self.actual_board[row][col].visible = True
+        return False
 
     @staticmethod
     def print_with_color(s, color=Fore.WHITE, brightness=Style.NORMAL, **kwargs):
@@ -139,7 +181,7 @@ class Tile:
     }
     
     def __init__(self):
-        self.visible = True
+        self.visible = False
         self.value = 0
         self.flagged = False
     
