@@ -87,8 +87,6 @@ class Main:
                 col = int(tile_info[1:tile_info.index('*')])
             else:
                 col = int(tile_info[1:])
-            print(col)
-            print(game_board.num_cols)
             if row >= game_board.num_rows or col >= game_board.num_cols:
                 tile_info = input('Invalid Input. Please enter a valid response: ')
                 tile_info = Main.parse_game_input(tile_info, game_board)
@@ -102,7 +100,7 @@ class Main:
         Board.show_board(game_board)
         tile_info = input('\nPlease select a tile to uncover. Enter the row letter, then column number, and add an asterisk if you wish to flag the tile as a bomb: ')
         first_tile_info = Main.parse_game_input(tile_info, game_board)
-        Board.create_board(game_board, first_tile_info)
+        Board.add_mines(game_board, first_tile_info)
         while True:
             tile_info = input('\nPlease select a tile to uncover. Enter the row letter, then column number, and add an asterisk if you wish to flag the tile as a bomb: ')
             tile_info = Main.parse_game_input(tile_info, game_board)
