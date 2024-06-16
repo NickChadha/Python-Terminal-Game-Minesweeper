@@ -74,9 +74,40 @@ class Main:
             choice = Main.check_choice(choice, menu_length)
         return choice
     
+    def parse_game_input(tile_info, game_board):
+        row = -1
+        col = -1
+        flag = False
+        while True:
+            if type(tile_info) == type([0, 0, 0]):
+                return tile_info
+            row = Board.alphabet.index(tile_info[0].upper())
+            if '*' in tile_info:
+                flag = True
+                col = int(tile_info[1:tile_info.index('*')])
+            else:
+                col = int(tile_info[1:])
+            print(col)
+            print(game_board.num_cols)
+            if row >= game_board.num_rows or col >= game_board.num_cols:
+                tile_info = input('Invalid Input. Please enter a valid response: ')
+                tile_info = Main.parse_game_input(tile_info, game_board)
+            else:
+                break
+        return [row, col, flag]
+        
+    
     def play_new_game(difficulty):
         game_board = Board(difficulty)
         Board.show_board(game_board)
+        tile_info = input('\nPlease select a tile to uncover. Enter the row letter, then column number, and add an asterisk if you wish to flag the tile as a bomb: ')
+        first_tile_info = Main.parse_game_input(tile_info, game_board)
+        Board.create_board(game_board, first_tile_info)
+        while True:
+            tile_info = input('\nPlease select a tile to uncover. Enter the row letter, then column number, and add an asterisk if you wish to flag the tile as a bomb: ')
+            tile_info = Main.parse_game_input(tile_info, game_board)
+            Board.uncover_tile(game_board, tile_info)
+            # TODO: handle case where player loses --> exit while loop, adjust stats
 
 # end of class Main
 
