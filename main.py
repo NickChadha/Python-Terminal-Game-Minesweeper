@@ -87,7 +87,7 @@ class Main:
         Board.add_mines(example_game_board, example_first_tile_info)
         print('\nThis is what the board could look like after uncovering tile D3 on the first turn.' +
               ' The number on each tile represents the number of mines in the vicinity (8 bordering tiles)')
-        print('Use this information to uncover tiles that can\'t have bombs and put flags on the tiles that must have bombs.' +
+        print('Use this information to uncover tiles that can\'t have mines and put flags on the tiles that must have mines.' +
               ' Successfully uncover every safe tile in order to win, but be careful not to dig up a mine, as that\'s an instant game over. Good luck!')
     
     def play_new_game(difficulty, current_user):
