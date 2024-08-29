@@ -1,6 +1,8 @@
 from User import *
 from GameBoard import *
 
+# TODO: add a Nevermind option to difficulty menu
+
 class Main:
     main_menu_options = [
         '1) Read the rules of the game',
@@ -64,7 +66,7 @@ class Main:
                 print('\nThanks for playing!')
                 return
             
-    def check_choice(choice, menu_length): # TODO: change function name to check_menu_choice()
+    def check_choice(choice, menu_length):
         choice = int(choice) # TODO: handle possible error
         if choice > 0 and choice <= menu_length:
             return choice
@@ -132,11 +134,12 @@ class Main:
             else:
                 break
         return [row, col, flag]
+    
+    def main():
+        User.load_stats()
+        Main.main_menu()
+
 # end of class Main
 
-def main():
-    User.load_stats()
-    Main.main_menu()
-
 if __name__ == '__main__':
-    main()
+    Main.main()

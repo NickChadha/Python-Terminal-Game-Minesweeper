@@ -21,8 +21,7 @@ Finally, make sure your interpreter is set to 'environment' and run the main.py 
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
+[TestCases.md](TestCases.md) contains instructions pertaining to running test cases to make sure the program is running as expected.
 
 ## Built With
 

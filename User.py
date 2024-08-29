@@ -38,9 +38,8 @@ class User:
         win_rate = 0
         if not (self.wins == 0 and self.losses == 0):
             win_rate = 100 * self.wins / float(self.wins + self.losses)
-
         print('\nLet\'s take a look at your stats, {NAME}!'.format(NAME=self.username))
-        print('\tGames won:\t{WINS}\n\tGames lost:\t{LOSSES}\n\tWin rate:\t{:.2f}%'.format(win_rate, WINS=self.wins, LOSSES=self.losses))   
+        print('\tGames won:\t{WINS}\n\tGames lost:\t{LOSSES}\n\tWin rate:\t{:.0f}%'.format(win_rate, WINS=self.wins, LOSSES=self.losses))   
 
     @staticmethod 
     def load_stats():
